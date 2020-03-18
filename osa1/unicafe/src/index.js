@@ -7,6 +7,18 @@ const Header = ({ text }) => {
   )
 }
 
+const Statistics = ({ good, neutral, bad }) => {
+  const all = good + neutral + bad
+  // ...
+  return (
+    <div>
+      <p>All {all}</p>
+      <p>Average {(good - bad) / all}</p>
+      <p>Positive {`${good / all * 100} %`}</p>
+    </div>
+  )
+}
+
 const App = () => {
   // tallenna napit omaan tilaansa
   const [good, setGood] = useState(0)
@@ -14,6 +26,7 @@ const App = () => {
   const [bad, setBad] = useState(0)
 
   return (
+
     <div>
       <Header text="Give feedback" />
 
@@ -32,6 +45,11 @@ const App = () => {
         <p>Good {good}</p>
         <p>Neutral {neutral}</p>
         <p>Bad {bad}</p>
+        <Statistics
+          good={good}
+          neutral={neutral}
+          bad={bad}
+        />
       </div>
     </div>
   )
