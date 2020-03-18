@@ -1,9 +1,19 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-const Header = ({ text }) => {
+const Header = ({ text }) => <h1>{text}</h1>
+
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>
+    {text}
+  </button>
+)
+
+const StatisticLine = ({ text, value }) => {
   return (
-    <h1>{text}</h1>
+    <div>
+      <p>{text} {value}</p>
+    </div>
   )
 }
 
@@ -20,9 +30,15 @@ const Statistics = ({ good, neutral, bad }) => {
 
   return (
     <div>
-      <p>All {all}</p>
-      <p>Average {(good - bad) / all}</p>
-      <p>Positive {`${good / all * 100} %`}</p>
+      <StatisticLine text='All' value={all} />
+      <StatisticLine
+        text='Average'
+        value={(good - bad) / all}
+      />
+      <StatisticLine
+        text="Positive"
+        value={`${good / all * 100} %`}
+      />
     </div>
   )
 }
@@ -38,15 +54,18 @@ const App = () => {
     <div>
       <Header text="Give feedback" />
 
-      <button onClick={() => setGood(good + 1)}>
-        Good
-      </button>
-      <button onClick={() => setNeutral(neutral + 1)}>
-        Neutral
-      </button>
-      <button onClick={() => setBad(bad + 1)}>
-        Bad
-      </button>
+      <Button
+        handleClick={() => setGood(good + 1)}
+        text="Good"
+      />
+      <Button
+        handleClick={() => setNeutral(neutral + 1)}
+        text="Neutral"
+      />
+      <Button
+        handleClick={() => setBad(bad + 1)}
+        text="Bad"
+      />
 
       <Header text="Statistics" />
       <div>
