@@ -1,1 +1,1 @@
-osan 2 tehtävät 2.1-2.?
+osan 2 tehtävät 2.1-2.5
