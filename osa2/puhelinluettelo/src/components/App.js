@@ -4,15 +4,26 @@ const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas' }
   ])
-  const [newName, setNewName] = useState('a new person...')
+  const [newName, setNewName] = useState('')
 
   const addName = (event) => {
     event.preventDefault()
-    const person = {
-      name: newName
+
+    if (persons.find(
+      ({ name }) => name === newName) === undefined) {
+      const person = {
+        name: newName
+      }
+
+      setPersons([...persons, person])
+      setNewName('')
+      console.log(`${newName} is added to phonebook`)
+    } else {
+      window.alert(`${newName} is already added to phonebook`)
+      setNewName('')
+
     }
-    setPersons([...persons, person])
-    setNewName('')
+
   }
 
   const handleNameChange = (event) => {
