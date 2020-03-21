@@ -4,7 +4,9 @@ import Person from './Person'
 const Persons = ({ persons }) => {
   return (
     persons.map(p =>
-      <Person person={p} />
+      <Person
+        key={p.name}
+        person={p} />
     )
   )
 }
