@@ -1,1 +1,1 @@
-osan 2 Tehtävät 2.6.-2.10.
+osan 2 Tehtävät 2.6.-2.11.
