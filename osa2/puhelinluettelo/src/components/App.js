@@ -46,6 +46,19 @@ const App = () => {
 
   }
 
+  const deleteName = (id) => (event) => {
+    PersonService
+      .get(id)
+      .then(p => {
+        if (window.confirm(`Delete ${p.name} ?`)) {
+          PersonService.deleteName(id)
+          setPersons(persons.filter(p => p.id !== id))
+          console.log(`${id} was deleted`)
+        }
+      })
+
+  }
+
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
@@ -55,14 +68,6 @@ const App = () => {
 
   const handleFilterChange = (event) =>
     setFilter(event.target.value)
-
-  const personsToShow = persons
-    .filter(p =>
-      p.name
-        .toLowerCase()
-        .includes(
-          filter.toLowerCase())
-    )
 
   return (
     <div>
@@ -86,7 +91,10 @@ const App = () => {
       <h3>Numbers</h3>
 
       <Persons
-        persons={personsToShow} />
+        persons={persons}
+        filter={filter}
+        onClick={(id) => deleteName(id)}
+      />
     </div>
   )
 }
