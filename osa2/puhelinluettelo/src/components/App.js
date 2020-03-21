@@ -29,11 +29,15 @@ const App = () => {
         number: newNumber
       }
 
-      console.log(person)
-      setPersons([...persons, person])
-      setNewName('')
-      setNewNumber('')
-      console.log(`${newName} is added to phonebook`)
+      axios
+        .post('http://localhost:3001/persons', person)
+        .then(response => {
+          setPersons([...persons, person])
+          setNewName('')
+          setNewNumber('')
+          console.log(`${newName} is added to phonebook`)
+        })
+
     } else {
       window.alert(`${newName} is already added to phonebook`)
       setNewName('')
