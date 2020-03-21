@@ -32,6 +32,7 @@ const App = () => {
       <Countries
         countries={countries}
         filter={filter}
+        onClick={f => setFilter(f)}
       />
     </div>
   )

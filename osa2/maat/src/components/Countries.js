@@ -1,7 +1,7 @@
 import React from 'react'
 import Country from './Country'
 
-const Countries = ({ countries, filter }) => {
+const Countries = ({ countries, filter, onClick }) => {
   countries = countries
     .filter(c =>
       c.name
@@ -17,12 +17,20 @@ const Countries = ({ countries, filter }) => {
       <div>
         {countries
           .map(country =>
-            <p key={country.name}>
+            <p key={country.alpha3Code}>
               {country.name}
+              <button
+                type="button"
+                onClick={() => onClick(country.name)}>
+                Show
+                 </button>
             </p>
+
           )
+
         }
-      </div>
+
+      </div >
     )
 
   } else if (countries.length === 1) {
