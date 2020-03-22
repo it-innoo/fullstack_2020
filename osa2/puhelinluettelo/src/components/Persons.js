@@ -13,7 +13,7 @@ const Persons = ({ persons, filter, onClick }) => {
       )
       .map(p =>
         <Person
-          key={p.name}
+          key={p.id}
           person={p}
           onClick={onClick}
         />
