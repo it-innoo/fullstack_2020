@@ -8,15 +8,17 @@ const Weather = ({ weather }) => {
   return (
     <div>
       <div>
-        <strong>temperature:</strong> {weather.temp_c} &#8451;
+        <strong>temperature:&nbsp;</strong> {weather.current.temperature} &#8451;
       </div>
       <div>
         <img
-          src={weather.condition.icon}
-          alt={weather.condition.text} />
+          src={weather.current.weather_icons}
+          alt={weather.current.weather_desciptions}
+        />
       </div>
       <div>
-        <strong>wind:</strong> {weather.wind_kph} kph direction {weather.wind_dir}
+        <strong>wind:&nbsp;</strong> {weather.current.wind_speed} km/h
+        direction {weather.current.wind_dir}
       </div>
     </div>
   )

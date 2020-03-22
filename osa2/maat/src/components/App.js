@@ -10,11 +10,9 @@ const App = () => {
   const endpoint = 'https://restcountries.eu/rest/v2/all'
 
   useEffect(() => {
-    console.log('effect')
     axios
       .get(endpoint)
       .then(response => {
-        console.log('promise fulfilled')
         setCountries(response.data)
       })
   }, [])

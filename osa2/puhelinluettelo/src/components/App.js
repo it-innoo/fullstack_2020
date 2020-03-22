@@ -59,11 +59,23 @@ const App = () => {
             setNewNumber('')
             setMessage(
               {
-                message: `Changed ${newPerson.name}`
-                , type: 'info'
+                message: `Changed ${newPerson.name}`,
+                type: 'info'
               }
             )
             setTimeout(() => setMessage({ message: null }), 5000)
+          }).catch(() => {
+            setNewName('')
+            setNewNumber('')
+            setPersons(persons.filter(p => p.id !== changedPerson.id))
+            setMessage(
+              {
+                message: `Infomation of ${changedPerson.name} has already been removed from server`,
+                type: 'error'
+              }
+            )
+            setTimeout(() => setMessage({ message: null }), 5000)
+
           })
       }
     }
@@ -83,6 +95,7 @@ const App = () => {
             }
           )
           setTimeout(() => setMessage({ message: null }), 5000)
+          setPersons(persons.filter(p => p.id !== id))
         }
       })
   }

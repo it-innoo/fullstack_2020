@@ -6,12 +6,28 @@ const Country = ({ country }) => {
   const [weather, setWeather] = useState(null)
 
   useEffect(() => {
-    const url = `https://api.apixu.com/v1/current.json?key=d68ee55761624662b8870114191305&q=${country.capital}`
+    const params = {
+      access_key: 'fa7e2b21efb65a8ec6bc513d92c51f9f',
+      query: `${country.capital}`
+    }
+    /*
+    const url = `http://api.weatherstack.com/current
+    ?access_key=fa7e2b21efb65a8ec6bc513d92c51f9f
+    &query=${country.capital}`
 
+    http://api.weatherstack.com/current
+    ? access_key = YOUR_ACCESS_KEY
+    & query = New York
+*/
+    //console.log(`url: ${url}`)
     axios
-      .get(url)
+      .get('http://api.weatherstack.com/current', { params })
       .then(response => {
-        setWeather(response.data.current)
+        const apiResponse = response.data
+        //console.log(apiResponse)
+        setWeather(apiResponse)
+      }).catch(error => {
+        console.log(error)
       })
   }, [country.capital])
   return (
