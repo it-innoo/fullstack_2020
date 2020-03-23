@@ -32,7 +32,7 @@ const App = () => {
         filter={filter}
         onClick={f => setFilter(f)}
       />
-    </div>
+    </div >
   )
 }
 
