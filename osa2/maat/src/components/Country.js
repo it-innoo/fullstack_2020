@@ -7,19 +7,10 @@ const Country = ({ country }) => {
 
   useEffect(() => {
     const params = {
-      access_key: 'fa7e2b21efb65a8ec6bc513d92c51f9f',
+      access_key: process.env.REACT_APP_API_KEY,
       query: `${country.capital}`
     }
-    /*
-    const url = `http://api.weatherstack.com/current
-    ?access_key=fa7e2b21efb65a8ec6bc513d92c51f9f
-    &query=${country.capital}`
 
-    http://api.weatherstack.com/current
-    ? access_key = YOUR_ACCESS_KEY
-    & query = New York
-*/
-    //console.log(`url: ${url}`)
     axios
       .get('http://api.weatherstack.com/current', { params })
       .then(response => {
