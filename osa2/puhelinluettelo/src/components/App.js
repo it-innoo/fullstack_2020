@@ -24,61 +24,90 @@ const App = () => {
   const addName = (event) => {
     event.preventDefault()
 
-    let person = persons.find(p =>
-      p.name === newName
-    )
-
-    if (person === undefined) {
-      person = {
+    PersonService
+      .create({
         name: newName,
         number: newNumber
-      }
+      })
+      .then(person => {
+        setPersons([...persons, person])
+        setNewName('')
+        setNewNumber('')
+        setMessage(
+          { message: `Added ${person.name}`, type: 'info' }
+        )
+        setTimeout(() => setMessage({ message: null }), 5000)
+      })
+      .catch(error => {
+        setNewName('')
+        setNewNumber('')
+        setMessage(
+          {
+            message: error.response.data.error,
+            type: 'error'
+          }
+        )
+        setTimeout(() => setMessage({ message: null }), 5000)
 
-      PersonService
-        .create(person)
-        .then(newPerson => {
-          setPersons([...persons, newPerson])
-          setNewName('')
-          setNewNumber('')
-          setMessage(
-            { message: `Added ${newPerson.name}`, type: 'info' }
-          )
-          setTimeout(() => setMessage({ message: null }), 5000)
-        })
-    } else {
-      if (window.confirm(
-        `${newName} is already added to phonebook,
-        replace the old number with a new one?
-        `)) {
-        const changedPerson = { ...person, number: newNumber }
-        PersonService
-          .update(changedPerson)
-          .then(newPerson => {
-            setPersons(persons.map(p => p.name === newName ? changedPerson : p))
-            setNewName('')
-            setNewNumber('')
-            setMessage(
-              {
-                message: `Changed ${newPerson.name}`,
-                type: 'info'
-              }
-            )
-            setTimeout(() => setMessage({ message: null }), 5000)
-          }).catch(() => {
-            setNewName('')
-            setNewNumber('')
-            setPersons(persons.filter(p => p.id !== changedPerson.id))
-            setMessage(
-              {
-                message: `Infomation of ${changedPerson.name} has already been removed from server`,
-                type: 'error'
-              }
-            )
-            setTimeout(() => setMessage({ message: null }), 5000)
+      })
 
-          })
-      }
-    }
+    /*
+        let person = persons.find(p =>
+          p.name === newName
+        )
+    
+        if (person === undefined) {
+          person = {
+            name: newName,
+            number: newNumber
+          }
+    
+          PersonService
+            .create(person)
+            .then(newPerson => {
+              setPersons([...persons, newPerson])
+              setNewName('')
+              setNewNumber('')
+              setMessage(
+                { message: `Added ${newPerson.name}`, type: 'info' }
+              )
+              setTimeout(() => setMessage({ message: null }), 5000)
+            })
+        } else {
+          if (window.confirm(
+            `${newName} is already added to phonebook,
+            replace the old number with a new one?
+            `)) {
+            const changedPerson = { ...person, number: newNumber }
+            PersonService
+              .update(changedPerson)
+              .then(newPerson => {
+                setPersons(persons.map(p => p.name === newName ? changedPerson : p))
+                setNewName('')
+                setNewNumber('')
+                setMessage(
+                  {
+                    message: `Changed ${newPerson.name}`,
+                    type: 'info'
+                  }
+                )
+                setTimeout(() => setMessage({ message: null }), 5000)
+              }).catch(() => {
+                setNewName('')
+                setNewNumber('')
+                setPersons(persons.filter(p => p.id !== changedPerson.id))
+                setMessage(
+                  {
+                    message: `Infomation of ${changedPerson.name} has already been removed from server`,
+                    type: 'error'
+                  }
+                )
+                setTimeout(() => setMessage({ message: null }), 5000)
+    
+              })
+          }
+        }
+        */
   }
 
   const deleteName = (id) => (event) => {
