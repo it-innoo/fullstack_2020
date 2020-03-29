@@ -9,7 +9,7 @@ const logger = require('./utils/logger')
 const blogsRouter = require('./controllers/blogs')
 
 const {
-  unknownEndpoint
+  unknownEndpoint,
 } = require('./utils/middleware')
 
 const app = express()
@@ -19,24 +19,23 @@ app.use(cors())
 app.use(express.json())
 
 morgan
-  .token('body', req => JSON.stringify(req.body))
+  .token('body', (req) => JSON.stringify(req.body))
 app.use(morgan(
-  ':method ' +
-  ':url ' +
-  ':status ' +
-  ':res[content-length] - ' +
-  ':response-time ms ' +
-  ':body'
+  ':method '
+  + ':url '
+  + ':status '
+  + ':res[content-length] - '
+  + ':response-time ms '
+  + ':body',
 ))
 
 
-logger.info('connecting to', config.MONGODB_URI)
-
+logger.info('connecting to https://cloud.mongodb.com/v2/5e7cac3ad304d4549b07e897#')
 
 mongoose.connect(config.MONGODB_URI,
   {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   })
 
 app.use('/api/blogs', blogsRouter)

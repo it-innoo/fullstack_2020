@@ -4,7 +4,7 @@ const unknownEndpoint = (request, response) => {
   response
     .status(404)
     .send({
-      error: `Not Found: ${request.url}`
+      error: `Not Found: ${request.url}`,
     })
 }
 

@@ -4,19 +4,17 @@ module.exports = {
         'commonjs': true,
         'es6': true
     },
-    'extends': 'eslint:recommended',
-    'globals': {
-        'Atomics': 'readonly',
-        'SharedArrayBuffer': 'readonly'
-    },
+    //'extends': 'eslint:recommended',
+    'extends': 'airbnb-base',
     'parserOptions': {
         'ecmaVersion': 2018
     },
     'rules': {
+        /*
         'indent': [
             'error',
             2
-        ],
+        ],*/
         'linebreak-style': [
             'error',
             'unix'
@@ -36,6 +34,10 @@ module.exports = {
         ],
         'arrow-spacing': [
             'error', { 'before': true, 'after': true }
+        ],
+        'no-underscore-dangle': [
+            'error',
+            { 'allow': ['_id', '__v'] }
         ],
         'no-console': 0
     }

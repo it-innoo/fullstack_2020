@@ -4,13 +4,13 @@ const Blog = require('../models/blog')
 router.get('/', (_request, response) => {
   Blog
     .find({})
-    .then(blogs => {
+    .then((blogs) => {
       response.json(blogs)
     })
 })
 
 router.post('/', (request, response, next) => {
-  const body = request.body
+  const { body } = request
 
   const blog = new Blog({
     title: body.title,
@@ -21,10 +21,10 @@ router.post('/', (request, response, next) => {
 
   blog
     .save()
-    .then(result => {
+    .then((result) => {
       response.status(201).json(result.toJSON())
     })
-    .catch(error => next(error))
+    .catch((error) => next(error))
 })
 
 module.exports = router
