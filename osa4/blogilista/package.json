@@ -7,7 +7,8 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "lint": "eslint .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint-fix": "eslint --fix .",
+    "test": "jest --verbose"
   },
   "author": "jailgreen <jukka@jahlgren.eu>",
   "license": "UNLICENSED",
@@ -25,6 +26,10 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.1",
+    "jest": "^25.2.3",
     "nodemon": "^2.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
