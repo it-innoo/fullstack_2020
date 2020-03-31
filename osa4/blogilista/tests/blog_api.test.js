@@ -123,4 +123,25 @@ describe('Blogs Tests', () => {
       'Microservices Resource Guide'
     )
   })
+
+  it('likes get default value if not set', async () => {
+    const newBlog = {
+      author: 'Martin Fowler',
+      title: 'Microservices Resource Guide',
+      url: 'https://martinfowler.com/microservices/',
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const response = await api.get('/api/blogs')
+    const created = response
+      .body
+      .filter(r => r.title === 'Microservices Resource Guide')
+
+    expect(created[0].likes).toBe(0)
+  })
 })
