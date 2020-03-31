@@ -69,23 +69,34 @@ afterAll(() => {
   mongoose.connection.close()
 })
 
-test('blogs are returned as json', async () => {
-  await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
-})
+describe('Blogs Tests', () => {
+  test('blogs are returned as json', async () => {
+    await api
+      .get('/api/blogs')
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+  })
 
-test('there are two blogs', async () => {
-  const response = await api.get('/api/blogs')
+  test('there are two blogs', async () => {
+    const response = await api.get('/api/blogs')
 
-  expect(response.body).toHaveLength(2)
-})
+    expect(response.body).toHaveLength(2)
+  })
 
-test('a specific blog is within the returned blogs', async () => {
-  const response = await api.get('/api/blogs')
+  test('a specific blog is within the returned blogs', async () => {
+    const response = await api.get('/api/blogs')
 
-  const title = response.body.map(r => r.title)
-  expect(title).toContain(
-    'React patterns')
+    const title = response.body.map((r) => r.title)
+    expect(title).toContain('React patterns')
+  })
+
+  test('identifier is named id', async () => {
+    const response = await api.get('/api/blogs')
+
+    const ids = response.body.map(r => r.id)
+    expect(ids).toBeDefined()
+
+    const oneBlog = response.body[0]
+    expect(oneBlog.__v).toBeUndefined()
+  })
 })
