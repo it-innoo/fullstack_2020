@@ -99,9 +99,52 @@ describe('Favorite Blog', () => {
 })
 
 describe('most blogs', () => {
+  test('of empty list is null', () => {
+    expect(listHelper.mostBlogs([])).toBe(null)
+  })
+  /*
+    test('the only author if list has only one blog', () => {
+      const expexted = {
+        author: 'Edsger W. Dijkstra',
+        blogs: 1,
+      }
+      expect(listHelper.favoriteBlog([blogs[0]]))
+        .toEqual(expexted)
+    })
+  */
+  test('the one with most blogs', () => {
+    const expexted = {
+      author: 'Robert C. Martin',
+      blogs: 3,
+    }
 
+    expect(listHelper.mostBlogs(blogs))
+      .toEqual(expexted)
+  })
 })
 
 describe('most likes', () => {
+  test('of empty list is null', () => {
+    expect(listHelper.mostLikes([])).toBe(null)
+  })
+  /*
+    test('the only author if list has only one blog', () => {
+      const expexted = {
+        author: 'Robert C. Martin',
+        likes: 10,
+      }
 
+      expect(listHelper.favoriteBlog([blogs[1]]))
+        .toEqual(expexted)
+    })
+  */
+  test('the one with most likes', () => {
+    const expexted = {
+      author: 'Edsger W. Dijkstra',
+      likes: 17,
+    }
+
+    expect(listHelper.mostLikes(blogs))
+      .toEqual(expexted)
+  })
 })
