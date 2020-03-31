@@ -99,4 +99,28 @@ describe('Blogs Tests', () => {
     const oneBlog = response.body[0]
     expect(oneBlog.__v).toBeUndefined()
   })
+
+  test('a valid blog can be added ', async () => {
+    const newBlog = {
+      author: 'Martin Fowler',
+      title: 'Microservices Resource Guide',
+      url: 'https://martinfowler.com/microservices/',
+      likes: 3,
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const response = await api.get('/api/blogs')
+
+    const titles = response.body.map(r => r.title)
+
+    expect(response.body).toHaveLength(3)
+    expect(titles).toContain(
+      'Microservices Resource Guide'
+    )
+  })
 })
