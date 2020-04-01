@@ -9,12 +9,8 @@ const Blog = require('../models/blog')
 
 beforeEach(async () => {
   await Blog.deleteMany({})
+  await Blog.insertMany(helper.initialBlogs)
 
-  let blogObject = new Blog(helper.initialBlogs[0])
-  await blogObject.save()
-
-  blogObject = new Blog(helper.initialBlogs[1])
-  await blogObject.save()
 })
 
 afterAll(() => {
@@ -29,10 +25,10 @@ describe('Blogs Tests', () => {
       .expect('Content-Type', /application\/json/)
   })
 
-  test('there are two blogs', async () => {
+  test('all notes are returned', async () => {
     const response = await api.get('/api/blogs')
 
-    expect(response.body).toHaveLength(2)
+    expect(response.body).toHaveLength(helper.initialBlogs.length)
   })
 
   test('a specific blog is within the returned blogs', async () => {
@@ -70,7 +66,7 @@ describe('Blogs Tests', () => {
 
     const titles = response.body.map(r => r.title)
 
-    expect(response.body).toHaveLength(3)
+    expect(response.body).toHaveLength(helper.initialBlogs.length + 1)
     expect(titles).toContain(
       'Microservices Resource Guide'
     )
@@ -107,12 +103,12 @@ describe('Blogs Tests', () => {
     await api
       .post('/api/blogs')
       .send(newBlog)
-      .expect(500)
-    //.expect('Content-Type', /application\/json/)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
 
     const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd.length)
-      .toBe(2)
+      .toBe(helper.initialBlogs.length)
   })
 
   it('blog is not added without url', async () => {
@@ -125,11 +121,11 @@ describe('Blogs Tests', () => {
     await api
       .post('/api/blogs')
       .send(newBlog)
-      .expect(500)
-    //.expect('Content-Type', /application\/json/)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
 
     const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd.length)
-      .toBe(2)
+      .toBe(helper.initialBlogs.length)
   })
 })
