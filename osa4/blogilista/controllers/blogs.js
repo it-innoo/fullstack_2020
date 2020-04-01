@@ -16,8 +16,12 @@ router.post('/', async (request, response, next) => {
     likes: body.likes,
   })
 
-  const savedBlog = await blog.save()
-  return response.status(201).json(savedBlog.toJSON())
+  try {
+    const savedBlog = await blog.save()
+    response.status(201).json(savedBlog.toJSON())
+  } catch (error) {
+    next(error)
+  }
 })
 
 module.exports = router
