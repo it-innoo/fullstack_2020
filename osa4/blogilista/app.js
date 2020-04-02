@@ -35,6 +35,8 @@ logger.info('connecting to https://cloud.mongodb.com/v2/5e7cac3ad304d4549b07e897
 
 mongoose.connect(config.MONGODB_URI,
   {
+    useCreateIndex: true,
+    useFindAndModify: false,
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

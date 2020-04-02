@@ -10,14 +10,13 @@ const Blog = require('../models/blog')
 beforeEach(async () => {
   await Blog.deleteMany({})
   await Blog.insertMany(helper.initialBlogs)
-
 })
 
 afterAll(() => {
   mongoose.connection.close()
 })
 
-describe('Blogs Tests', () => {
+describe('when there is initially some blogs saved', () => {
   test('blogs are returned as json', async () => {
     await api
       .get('/api/blogs')
@@ -47,7 +46,9 @@ describe('Blogs Tests', () => {
     const oneBlog = response.body[0]
     expect(oneBlog.__v).toBeUndefined()
   })
+})
 
+describe('addition of a new blog', () => {
   test('a valid blog can be added ', async () => {
     const newBlog = {
       author: 'Martin Fowler',
@@ -64,11 +65,11 @@ describe('Blogs Tests', () => {
 
     const response = await api.get('/api/blogs')
 
-    const titles = response.body.map(r => r.title)
+    const titles = response.body.map((r) => r.title)
 
     expect(response.body).toHaveLength(helper.initialBlogs.length + 1)
     expect(titles).toContain(
-      'Microservices Resource Guide'
+      'Microservices Resource Guide',
     )
   })
 
@@ -88,7 +89,7 @@ describe('Blogs Tests', () => {
     const response = await api.get('/api/blogs')
     const created = response
       .body
-      .filter(r => r.title === 'Microservices Resource Guide')
+      .filter((r) => r.title === 'Microservices Resource Guide')
 
     expect(created[0].likes).toBe(0)
   })
@@ -127,5 +128,43 @@ describe('Blogs Tests', () => {
     const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd.length)
       .toBe(helper.initialBlogs.length)
+  })
+})
+
+describe('a blog can be deleted', () => {
+  it('succeeds with status code 204 if id is valid', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd.length)
+      .toBe(blogsAtStart.length - 1)
+
+    const title = blogsAtEnd.map((r) => r.title)
+    expect(title).not.toContain(blogToDelete.title)
+  })
+})
+
+describe('update a blog in bloglist', () => {
+  test('succeeds with valid params', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToModify = blogsAtStart[0]
+
+    const { likes } = blogToModify
+    blogToModify.likes += 1
+
+    await api
+      .put(`/api/blogs/${blogToModify.id}`)
+      .send(blogToModify)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    const blog = blogsAtEnd[0]
+    expect(blog.likes).toBe(likes + 1)
   })
 })
