@@ -33,7 +33,7 @@ describe('when there is initially some blogs saved', () => {
   test('a specific blog is within the returned blogs', async () => {
     const response = await api.get('/api/blogs')
 
-    const title = response.body.map((r) => r.title)
+    const title = response.body.map(r => r.title)
     expect(title).toContain('React patterns')
   })
 
@@ -65,7 +65,7 @@ describe('addition of a new blog', () => {
 
     const response = await api.get('/api/blogs')
 
-    const titles = response.body.map((r) => r.title)
+    const titles = response.body.map(r => r.title)
 
     expect(response.body).toHaveLength(helper.initialBlogs.length + 1)
     expect(titles).toContain(
@@ -89,7 +89,7 @@ describe('addition of a new blog', () => {
     const response = await api.get('/api/blogs')
     const created = response
       .body
-      .filter((r) => r.title === 'Microservices Resource Guide')
+      .filter(r => r.title === 'Microservices Resource Guide')
 
     expect(created[0].likes).toBe(0)
   })
@@ -144,7 +144,7 @@ describe('a blog can be deleted', () => {
     expect(blogsAtEnd.length)
       .toBe(blogsAtStart.length - 1)
 
-    const title = blogsAtEnd.map((r) => r.title)
+    const title = blogsAtEnd.map(r => r.title)
     expect(title).not.toContain(blogToDelete.title)
   })
 })

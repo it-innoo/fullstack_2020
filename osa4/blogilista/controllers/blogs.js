@@ -3,7 +3,7 @@ const Blog = require('../models/blog')
 
 router.get('/', async (_request, response) => {
   const blogs = await Blog.find({})
-  response.json(blogs.map((blog) => blog.toJSON()))
+  response.json(blogs.map(blog => blog.toJSON()))
 })
 
 router.post('/', async (request, response) => {

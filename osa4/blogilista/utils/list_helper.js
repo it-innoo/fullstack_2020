@@ -1,13 +1,13 @@
 
 const dummy = () => 1
 
-const totalLikes = (blogs) => blogs
-  .map((blog) => blog.likes)
+const totalLikes = blogs => blogs
+  .map(blog => blog.likes)
   .reduce((total, amount) => total + amount, 0)
 
 const byLikes = (a, b) => b.likes - a.likes
 
-const favoriteBlog = (blogs) => {
+const favoriteBlog = blogs => {
   if (blogs === undefined || blogs === null || blogs.length === 0) {
     return {}
   }
@@ -17,13 +17,13 @@ const favoriteBlog = (blogs) => {
   return { title, author, likes }
 }
 
-const mostBlogs = (blogs) => {
+const mostBlogs = blogs => {
   if (blogs === undefined || blogs === null || blogs.length === 0) {
     return null
   }
 
   const authors = blogs
-    .map((b) => b.author)
+    .map(b => b.author)
     .reduce((obj, name) => {
       const o = obj
       o[name] = o[name] ? (o[name] + 1) : 1
@@ -41,7 +41,7 @@ const mostBlogs = (blogs) => {
 }
 
 
-const mostLikes = (blogs) => {
+const mostLikes = blogs => {
   if (blogs === undefined || blogs === null || blogs.length === 0) {
     return null
   }
@@ -55,7 +55,7 @@ const mostLikes = (blogs) => {
     }
   */
   const authors = blogs
-    .map((b) => ({
+    .map(b => ({
       author: b.author,
       likes: b.likes,
     }))

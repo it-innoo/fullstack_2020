@@ -32,6 +32,7 @@ module.exports = {
         'object-curly-spacing': [
             'error', 'always'
         ],
+        'arrow-parens': ["error", "as-needed"],
         'arrow-spacing': [
             'error', { 'before': true, 'after': true }
         ],
