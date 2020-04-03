@@ -13,7 +13,11 @@ afterAll(() => {
 beforeEach(async () => {
   await User.deleteMany({})
 
-  const user = new User({ username: 'root', password: 'sekret' })
+  const user = new User({
+    username: 'root',
+    name: 'Superuser',
+    password: 'sekret',
+  })
   await user.save()
 })
 
@@ -45,7 +49,6 @@ describe('when there is initially one user at db', () => {
 
     const newUser = {
       username: 'root',
-      name: 'Superuser',
       password: 'salainen',
     }
 
