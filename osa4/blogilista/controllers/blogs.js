@@ -17,9 +17,10 @@ router.post('/', async (request, response) => {
     .verify(token, process.env.SECRET)
 
   if (!token || !decodedToken.id) {
-    return response
+    response
       .status(401)
-      .json({ error: 'token missing or invalid' })
+      .json({ error: 'Invalid authentication' })
+      .end()
   }
   const user = await User.findById(decodedToken.id)
 
@@ -35,12 +36,41 @@ router.post('/', async (request, response) => {
   user.blogs = [...user.blogs, savedBlog._id]
   await user.save()
 
-  return response.status(201).json(savedBlog.toJSON())
+  response.status(201).json(savedBlog.toJSON())
 })
 
 router.delete('/:id', async (request, response) => {
+  const { token } = request
+
+  const decodedToken = jwt
+    .verify(token, process.env.SECRET)
+
+  if (!token || !decodedToken.id) {
+    response
+      .status(401)
+      .json({ error: 'Invalid authentication' })
+      .end()
+  }
+  const user = await User.findById(decodedToken.id)
+  const blog = await Blog.findById(request.params.id)
+
+  if (!blog) {
+    response
+      .status(404)
+      .json({ error: 'blog not found' })
+      .end()
+  }
+
+  const tokenUser = blog.user
+  if (JSON.stringify(user) === JSON.stringify(tokenUser)) {
+    response
+      .status(401)
+      .json({ error: 'wrong authentication' })
+      .end()
+  }
+
   await Blog.findByIdAndRemove(request.params.id)
-  return response
+  response
     .status(204)
     .end()
 })

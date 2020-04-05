@@ -19,6 +19,7 @@ router.post('/', async (request, response) => {
     response.status(400).send({
       error: 'pasword is required and minimum length 3',
     })
+      .end()
   }
 
   const saltRounds = 10
